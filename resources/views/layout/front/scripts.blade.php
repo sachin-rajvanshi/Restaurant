@@ -168,13 +168,13 @@
                 beforeSend: function() {
                     document.getElementById('loading').style.display = 'block';
                 },
-                success: function(response) {
-                    swal('', response.message, 'success');
+                success: function(data) {
+                    swal('', data.msg, data.type);
                     setTimeout(function() {
-
+                        window.location.href='{{ url('cart') }}';
                     }, 3000);
                 },
-                error: function(response) {
+                error: function(error) {
                     alert('Something happned wrong.');
                     document.getElementById('loading').style.display = 'none';
                 },

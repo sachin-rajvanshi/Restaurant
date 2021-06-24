@@ -52,6 +52,17 @@ Trait GlobalTrait {
         );
     }
 
+    protected function ajaxResponseMessage($type, $message, $data = null, $url = null) {
+        return response()->json(
+            [
+                'type'    => $type,
+                'message' => $message,
+                'data'    => $data,
+                'url'     => $url
+            ]
+        );
+    }
+
     /*
     |--------------------------------------------------------------------------
     | API Error Response 

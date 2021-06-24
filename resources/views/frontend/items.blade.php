@@ -23,7 +23,7 @@
 		    		@endif
 		    	@endif
 		    </h5>
-		    <a href="#" data-toggle="modal" data-target="#addIngredients" class="addtocart"><i class="fas fa-arrow-right"></i>Add to Cart</a>
+		    <a href="javascript:void(0)" onclick="openCartModel('{{ $food->id }}')" class="addtocart"><i class="fas fa-arrow-right"></i>Add to Cart</a>
 		  </div>
 		</div>
 	</div>

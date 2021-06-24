@@ -29,12 +29,19 @@ class CartController extends Controller
         return view('frontend.cart_model', compact('picked', 'varient', 'addons', 'ingredients', 'all_varients'))->render();
     }
 
+    public function cart()
+    {
+    	return view('order.cart');
+    }
+
     public function addFoodToCart(Request $request)
     {
     	$picked_food  = FoodItem::find($request->food_id);
-    	$picked_image = FoodItem::where('food_id', $picked_food->id)->orderBy('id', 'DESC')->first();
+    	$picked_image = FoodGallery::where('food_id', $picked_food->id)->orderBy('id', 'DESC')->first();
     	if(!$picked_food) {
-    		return redirect()->back()->with('success', 'This Food Item Not Food, Please Try Again Later.');
+    		$data['type'] = 'success';
+            $data['msg']  = 'This Food Item Not Food, Please Try Again Later.';
+            return $data;
     	}
     	$cart = session()->get('cart');
     	// if cart is empty then this the first product
@@ -54,12 +61,15 @@ class CartController extends Controller
                     ]
             ];
             session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
+            $data['type'] = 'success';
+            $data['msg']  = 'Product added to cart successfully!';
+            return $data;
         }
-
         // if cart not empty then check if this product exist then increment quantity
-        if(isset($cart[$id])) {
-            return redirect()->back()->with('warning', 'Product allready added in cart!');
+        if(isset($cart[$picked_food->id])) {
+        	$data['type'] = 'warning';
+            $data['msg']  = 'Product allready added in cart!';
+            return $data;
         }
         // if item not exist in cart then add to cart
         $cart[$picked_food->id] = [
@@ -75,6 +85,8 @@ class CartController extends Controller
             "food_request"       => $request->food_request,
         ];
         session()->put('cart', $cart);
-    	return redirect()->back()->with('success', 'Product added to cart successfully!');
+        $data['type'] = 'warning';
+        $data['msg']  = 'Product added to cart successfully!';
+        return $data;
     }
 }

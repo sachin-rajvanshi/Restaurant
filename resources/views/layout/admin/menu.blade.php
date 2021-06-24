@@ -54,6 +54,7 @@
             </li>
             <li data-menu="">
               <a class="dropdown-item d-flex align-items-center" href="{{ url('admin/food/items') }}" data-toggle="dropdown"><span>Manage Food Items</span></a>
+              <a class="dropdown-item d-flex align-items-center" href="{{ url('admin/food/items') }}" data-toggle="dropdown"><span>Manage Cooking Level & Ingredients</span></a>
             </li>
           </ul>
         </li>
