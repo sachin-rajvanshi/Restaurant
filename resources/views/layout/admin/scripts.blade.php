@@ -14,6 +14,14 @@
 <script src="{{ asset('') }}admin/toasts/dist/toast.min.js"></script>
  <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
 <script type="text/javascript">
+
+	function modifyStringData(txt_id){
+		var txt = $('#'+txt_id).val();
+		var modify_txt = txt.replace(/\s/g,'');
+		var uppercase_txt = modify_txt.toUpperCase();
+		document.getElementById(txt_id).value = uppercase_txt;
+	}
+
 	// Image Upload In CK Editor 
 	class MyUploadImageAdapter {
 		constructor( loader ) {

@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\QuantityController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\FoodItemController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\IngredientController;
 use App\Http\Controllers\User\AddressBookController;
 use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\GalleryCategoryController;
@@ -53,7 +54,7 @@ Route::post('guest/review', [HomeController::class, 'createGuestReview'])->name(
 Route::get('contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('contact/enquiry', [HomeController::class, 'contactEnquiry'])->name('contactEnquiry');
 Route::get('offer', [HomeController::class, 'offer'])->name('offer');
-Route::get('food/items', [HomeController::class, 'foods'])->name('foods');
+Route::get('all/food/items', [HomeController::class, 'foods'])->name('foods');
 Route::post('food/items/filters', [HomeController::class, 'foodFilters'])->name('foodFilters');
 Route::get('food/detail/{id}', [HomeController::class, 'foodDetails'])->name('foodDetails');
 Route::post('add/favourite', [HomeController::class, 'addFavourite'])->name('addFavourite');
@@ -62,6 +63,8 @@ Route::post('add/favourite', [HomeController::class, 'addFavourite'])->name('add
 Route::post('food/cart/model', [CartController::class, 'foodCartModel'])->name('food.foodCartModel');
 Route::post('add-food/cart', [CartController::class, 'addFoodToCart'])->name('food.addFoodToCart');
 Route::get('cart', [CartController::class, 'cart'])->name('food.cart');
+Route::post('update/cart/quantity', [CartController::class, 'updateQuality'])->name('food.updateQuality');
+Route::post('remove/cart/quantity', [CartController::class, 'removeQuality'])->name('food.removeQuality');
 
 /*
 |--------------------------------------------------------------------------
@@ -219,6 +222,9 @@ Route::group(['prefix' => 'admin','middleware' => ['auth', 'admin.check']], func
 	Route::get('food/addons/{id}', [FoodItemController::class, 'addons'])->name('admin.food.addons');
 	Route::post('food/addons', [FoodItemController::class, 'createAddons'])->name('admin.food.createAddons');
 
+	// Food Ingredients Routes
+	Route::resource('ingredients', IngredientController::class);
+
 
 	// Deals Related Route
 	Route::resource('deals', DealController::class);
@@ -250,7 +256,7 @@ Route::group(['middleware' => ['auth']], function () {
 	// Get Sub Categories
 	Route::get('sub/categories/{id}', [HomeController::class, 'getSubCategories'])->name('getSubCategories');
 	Route::post('sub/categories', [HomeController::class, 'getSubCategoriesByArray'])->name('getSubCategoriesByArray');
-	Route::post('food/items', [HomeController::class, 'foodItems'])->name('foodItems');
+	Route::post('get/food/items', [HomeController::class, 'foodItems'])->name('foodItems');
 	Route::get('quantity/list', [HomeController::class, 'quantityList'])->name('quantityList');
 	Route::post('update/password', [AdminController::class, 'updatePassword'])->name('admin.updatePassword.profile');
 });

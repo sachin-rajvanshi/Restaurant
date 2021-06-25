@@ -170,7 +170,7 @@
         // console.log(sub_categories);
         $("#food_items").html('');
         $.ajax({
-            url:"{{url('food/items')}}",
+            url:"{{url('get/food/items')}}",
             type: "POST",
             dataType : 'json',
             data: {

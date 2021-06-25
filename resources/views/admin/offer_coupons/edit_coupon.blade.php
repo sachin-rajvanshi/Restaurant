@@ -49,6 +49,15 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
+                      <label>Coupon Code</label>
+                      <input type="text" class="form-control" name="code" id="coupon_code" placeholder="Coupon Code" value="{{ $picked->code }}" onkeyup="modifyStringData('coupon_code')" required="" />
+                      @if($errors->has('code'))
+                        <div class="error">{{ $errors->first('code') }}</div>
+                      @endif
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
                       <label>Select Category</label>
                       <select class="select2 form-control" name="category[]" id="category" onchange="getSubCategoriesByArray()" required="" multiple>
                         @foreach($categories as $category)

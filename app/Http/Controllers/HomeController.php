@@ -10,6 +10,7 @@ use App\Models\State;
 use App\Models\Career; 
 use App\Models\Header; 
 use App\Models\Footer; 
+use App\Models\Coupon;
 use App\Models\Support; 
 use App\Models\Country;
 use App\Models\Gallery;
@@ -167,9 +168,9 @@ class HomeController extends Controller
     public function foodItems(Request $request) {
         try{
             if($request->has('sub_categories')) {
-                $datas = FoodItem::whereIn('sub_category_id', [$request->sub_categories])->get();
+                $datas = FoodItem::whereIn('sub_category_id', $request->sub_categories)->get();
             }else {
-                $datas = FoodItem::whereIn('category_id', [$request->categories])->get();
+                $datas = FoodItem::whereIn('category_id', $request->categories)->get();
             }
             return $this->success('Food Items Found Successfully', $datas);
         }catch(\Exception $e) {
@@ -272,7 +273,10 @@ class HomeController extends Controller
     }
 
     public function offer() {
-        return view('frontend.offer');
+        $coupons = Coupon::where('start_date', '<=' , date('Y-m-d'))
+            ->where('end_date', '>=' , date('Y-m-d'))
+            ->get();
+        return view('frontend.offer', compact('coupons'));
     }
 
     public function foods(Request $request) {

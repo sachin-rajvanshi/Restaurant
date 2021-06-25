@@ -48,37 +48,33 @@
             </div>
           </div>
         </div>
+        @if(count($cooking_levels) > 0)
         <div class="cooking-level">
           <h4>COOKING LEVEL (MEAT) (required)</h4>
-          <div class="custom-control custom-radio form-check-inline">
-            <input type="radio" id="meat-1" name="payment" class="custom-control-input"/>
-            <label class="custom-control-label" for="meat-1">White Rice</label>
-          </div>
-          <div class="custom-control custom-radio form-check-inline">
-            <input type="radio" id="meat-2" name="payment" class="custom-control-input"/>
-            <label class="custom-control-label" for="meat-2">Dill Rice</label>
-          </div>
-          <div class="custom-control custom-radio form-check-inline">
-            <input type="radio" id="meat-3" name="payment" class="custom-control-input"/>
-            <label class="custom-control-label" for="meat-3">Half/Half Rice</label>
-          </div>
+          @foreach($cooking_levels as $l => $level)
+            <div class="custom-control custom-radio form-check-inline">
+              <input type="radio" id="meat-{{ $l }}" name="level" class="custom-control-input" value="{{ $level->id }}" />
+              <label class="custom-control-label" for="meat-{{ $l }}">{{ $level->name }}</label>
+            </div>
+          @endforeach
         </div>
+        @endif
         <div class="cooking-level">
           <h4>EXTRA INGREDIENTS</h4>
           <div class="row">
-            <div class="col-md-6">
-              @foreach($ingredients as $i => $ingredient)
+            @foreach($ingredients as $i => $ingredient)
+            <div class="col-md-3">
               <div class="form-group">
                 @php
-                  $ingredient_price = $ingredient->getHighestPriceVarient($ingredient->id) ? $ingredient->getHighestPriceVarient($ingredient->id)->final_price : 0;
+                  $ingredient_price = $ingredient->price ? $ingredient->price : 0;
                 @endphp
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" name="addon_varients" value="{{ $ingredient->id }}" class="custom-control-input" id="ingredient{{ $i }}" onclick="addIngredientsAmount('{{ $i }}', '{{ $ingredient_price }}')" />
                   <label class="custom-control-label" for="ingredient{{ $i }}">{{ $ingredient->name }} ${{ $ingredient_price }}</label>
                 </div>
               </div>
-              @endforeach
             </div>
+            @endforeach
             
           </div>
         </div>

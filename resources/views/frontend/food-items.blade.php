@@ -27,9 +27,9 @@
             <div class="categories">
               <h3>Category</h3>
               <ul>
-                <li><a href="{{ url('food/items') }}" @if(app('request')->input('category') == null) class="active" @endif) >All</a></li>
+                <li><a href="{{ url('all/food/items') }}" @if(app('request')->input('category') == null) class="active" @endif) >All</a></li>
                 @foreach($categories as $category)
-                  <li><a href="{{ url('food/items') }}?category={{ base64_encode($category->id) }}" @if(app('request')->input('category') == base64_encode($category->id)) class="active" @endif>{{ $category->name }}</a></li>
+                  <li><a href="{{ url('all/food/items') }}?category={{ base64_encode($category->id) }}" @if(app('request')->input('category') == base64_encode($category->id)) class="active" @endif>{{ $category->name }}</a></li>
                 @endforeach
               </ul>
             </div>

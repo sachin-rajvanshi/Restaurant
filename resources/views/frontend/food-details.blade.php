@@ -41,7 +41,7 @@
         <div class="col-md-8">
           <div class="food-description">
             <h3>{{ $picked->name }}</h3>
-            <h6><b>Categories:</b> <a href="{{ url('food/items') }}?category={{ base64_encode($picked->category_id) }}">{{ $picked->getCategory ? $picked->getCategory->name : '' }}  {{ $picked->getSubCategory ? '/ '.$picked->getSubCategory->name : '' }}</a></h6>
+            <h6><b>Categories:</b> <a href="{{ url('all/food/items') }}?category={{ base64_encode($picked->category_id) }}">{{ $picked->getCategory ? $picked->getCategory->name : '' }}  {{ $picked->getSubCategory ? '/ '.$picked->getSubCategory->name : '' }}</a></h6>
             <p>{{ $picked->remark }}</p>
             <div class="rating-price-time">
               <div class="rating-blk">

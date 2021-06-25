@@ -45,6 +45,19 @@
         document.getElementById('show_order_total_price').innerHTML = parseInt(final);
     }
 
+
+    function managePriceByQuantityIncrement(id) {
+        var quantity = $('#food_quantity').val();
+        var total_qty = parseInt(quantity) + 1;
+        updateFoodQuantity(id, total_qty);
+    } 
+
+    function managePriceByQuantityDecrement(id) {
+        var quantity = $('#food_quantity').val();
+        var total_qty = parseInt(quantity) == 1 ? quantity : parseInt(quantity) - 1;
+        updateFoodQuantity(id, total_qty);
+    }
+
     function  manageVarientType(amount) {
         var varient_price = $("#varient_type").find(':selected').attr('price');
         document.getElementById('old_price').value = varient_price;
@@ -110,11 +123,17 @@
         var addon_price     = $('#ingredient_total').val();
         var total_price     = $('#cart_final_price').val();
         var quantity        = $('#food_quantity').val();
-        var food_request        = $('#food_request').val();
-        var varient_ids     = new Array();
+        var food_request    = $('#food_request').val();
+        var level           = null;
+        var ingredients_ids     = new Array();
         $("[name='addon_varients']").each(function (index, data) {
             if (data.checked) {
-                varient_ids.push(data.value);
+                ingredients_ids.push(data.value);
+            }
+        }); 
+        $("[name='level']").each(function (index, data) {
+            if (data.checked) {
+                level = data.value;
             }
         }); 
         if(food_id == '' || food_id == null) {
@@ -142,6 +161,7 @@
             location.reload();
             return false;
         }
+        console.log(level);
         swal({
             title: "Are you sure?",
             text: "Add This Food Item To Cart.",
@@ -163,7 +183,8 @@
                     'total_price': total_price,
                     'quantity': quantity,
                     'food_request': food_request,
-                    'varient_ids': varient_ids,
+                    'ingredients_ids': ingredients_ids,
+                    'level_id': level,
                 },
                 beforeSend: function() {
                     document.getElementById('loading').style.display = 'block';
@@ -171,8 +192,8 @@
                 success: function(data) {
                     swal('', data.msg, data.type);
                     setTimeout(function() {
-                        window.location.href='{{ url('cart') }}';
-                    }, 3000);
+                        location.reload();
+                    }, 2000);
                 },
                 error: function(error) {
                     alert('Something happned wrong.');
@@ -184,6 +205,76 @@
             })
         }
         });
+    }
+
+    function removeFoodItemsFromCart(id) {
+        
+        swal({
+            title: "Are you sure?",
+            text: "Remove This Food Item From Cart.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                url: '{{ url('remove/cart/quantity') }}',
+                method: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    'food_id': id,
+                },
+                beforeSend: function() {
+                    document.getElementById('loading').style.display = 'block';
+                },
+                success: function(data) {
+                    document.getElementById('cart_number').innerHTML = '{{ count((array) session('cart')) }}';
+                    $('#render-cart').html(data);
+                },
+                error: function(error) {
+                    alert('Something happned wrong.');
+                    document.getElementById('loading').style.display = 'none';
+                },
+                complete: function() {
+                    document.getElementById('loading').style.display = 'none';
+                }
+            })
+        }
+        });
+    }
+
+    function updateFoodQuantity(id, qty) {
+        $('#decrement'+id).attr('disabled', true);
+        $('#increment'+id).attr('disabled', true);
+        $.ajax({
+            url: '{{ url('update/cart/quantity') }}',
+            method: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                'food_id': id,
+                'quantity': qty,
+            },
+            beforeSend: function() {
+                document.getElementById('loading').style.display = 'block';
+            },
+            success: function(data) {
+                document.getElementById('cart_number').innerHTML = '{{ count((array) session('cart')) }}';
+                $('#render-cart').html(data);
+            },
+            error: function(error) {
+                alert('Something happned wrong.');
+                document.getElementById('loading').style.display = 'none';
+                setTimeout(function() {
+                    location.reload();
+                }, 2000);
+            },
+            complete: function() {
+                $('#decrement'+id).removeAttr('disabled');
+                $('#increment'+id).removeAttr('disabled');
+                document.getElementById('loading').style.display = 'none';
+            }
+        })
     }
 </script>
 <!-- toastr message -->

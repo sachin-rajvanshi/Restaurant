@@ -42,8 +42,17 @@
                       <label>Offer Name</label>
                       <input type="text" class="form-control" name="name" placeholder="Offer Name" value="{{ old('name') }}" required="" />
                       @if($errors->has('name'))
-					    <div class="error">{{ $errors->first('name') }}</div>
-					  @endif
+					             <div class="error">{{ $errors->first('name') }}</div>
+					            @endif
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Coupon Code</label>
+                      <input type="text" class="form-control" name="code" id="coupon_code" placeholder="Coupon Code" value="{{ old('code') }}" onkeyup="modifyStringData('coupon_code')" required="" />
+                      @if($errors->has('code'))
+                        <div class="error">{{ $errors->first('code') }}</div>
+                      @endif
                     </div>
                   </div>
                   <div class="col-md-4">
@@ -55,8 +64,8 @@
                         @endforeach
                       </select>
                       @if($errors->has('category'))
-					    <div class="error">{{ $errors->first('category') }}</div>
-					  @endif
+					               <div class="error">{{ $errors->first('category') }}</div>
+					            @endif
                     </div>
                   </div>
                   <div class="col-md-4">
@@ -65,8 +74,8 @@
                       <select class="select2 form-control" name="sub_category[]" id="sub_category"  onchange="getFoodItems()" multiple>
                       </select>
                       @if($errors->has('sub_category'))
-					    <div class="error">{{ $errors->first('sub_category') }}</div>
-					  @endif
+					               <div class="error">{{ $errors->first('sub_category') }}</div>
+					           @endif
                     </div>
                   </div>
                   <div class="col-md-4">

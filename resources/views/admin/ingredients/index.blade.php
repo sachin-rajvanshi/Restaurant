@@ -11,7 +11,7 @@
           <div class="col-12">
             <div class="breadcrumb-wrapper">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="ecommerce-dashboard.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Manage Cooking Level & Ingredients</li>
               </ol>
             </div>
@@ -21,7 +21,7 @@
       <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
         <div class="form-group breadcrumb-right">
           <div class="dropdown">
-            <a href="add-ingredients.php" class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle">Add Cooking Level & Ingredients</a>
+            <a href="{{ url('admin/ingredients/create') }}" class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle">Add Cooking Level & Ingredients</a>
           </div>
         </div>
       </div>
@@ -35,79 +35,22 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="ingredients-list">
                   <thead>
                     <tr>
                       <th>ID</th>
                       <th>Date & Time</th>
+                      <th>Food Item</th>
                       <th>Type</th>
-                      <th>Name & Price(If any)</th>
-                      <th>Price</th>
+                      <th>Name</th>
+                      <th>Price (If any)</th>
                       <th width="100">Status</th>
                       <th width="70">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td width="50">#1</td>
-                      <td>12 May 2021, 12:33 PM</td>
-                      <td>Cooking Level</td>
-                      <td>Rare</td>
-                      <td></td>
-                      <td><span class="text-success">Active</span></td>
-                      <td>
-                        <a href="edit-ingredients.php" class="btn btn-primary btn-sm-custom waves-effect waves-float waves-light"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm-custom waves-effect waves-float waves-light"><i class="far fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="50">#2</td>
-                      <td>12 May 2021, 12:33 PM</td>
-                      <td>Cooking Level</td>
-                      <td>Medium Rare </td>
-                      <td></td>
-                      <td><span class="text-success">Active</span></td>
-                      <td>
-                        <a href="edit-ingredients.php" class="btn btn-primary btn-sm-custom waves-effect waves-float waves-light"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm-custom waves-effect waves-float waves-light"><i class="far fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="50">#3</td>
-                      <td>12 May 2021, 12:33 PM</td>
-                      <td>Rice Type</td>
-                      <td>White Rice </td>
-                      <td></td>
-                      <td><span class="text-success">Active</span></td>
-                      <td>
-                        <a href="edit-ingredients.php" class="btn btn-primary btn-sm-custom waves-effect waves-float waves-light"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm-custom waves-effect waves-float waves-light"><i class="far fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="50">#4</td>
-                      <td>12 May 2021, 12:33 PM</td>
-                      <td>Extra Ingredients</td>
-                      <td>1.5 Ounce Hot Sauce</td>
-                      <td><span>$ 0.50</span></td>
-                      <td><span class="text-success">Active</span></td>
-                      <td>
-                        <a href="edit-ingredients.php" class="btn btn-primary btn-sm-custom waves-effect waves-float waves-light"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm-custom waves-effect waves-float waves-light"><i class="far fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="50">#5</td>
-                      <td>12 May 2021, 12:33 PM</td>
-                      <td>Rice Type</td>
-                      <td>8 ounce Creamy Garlic Sauce</td>
-                      <td><span>$ 2.50</span></td>
-                      <td><span class="text-success">Active</span></td>
-                      <td>
-                        <a href="edit-ingredients.php" class="btn btn-primary btn-sm-custom waves-effect waves-float waves-light"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm-custom waves-effect waves-float waves-light"><i class="far fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
+                    
+                  
                   </tbody>
                 </table>
               </div>
@@ -119,9 +62,67 @@
   </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
-
 @endsection
 @section('page-scripts')
+<script type="text/javascript">
+  $(function () {
+    var table = $('#ingredients-list').DataTable({
+        processing: true,
+        serverSide: true,
+        render: true,
+        searching: true,
+        ajax: "{{ url('admin/ingredients') }}",
+        columns: [
+        {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+        {data: 'date_time', name: 'date_time'},
+        {data: 'food', name: 'food'},
+        {data: 'type', name: 'type'},
+        {data: 'name', name: 'name'},
+        {data: 'price', name: 'price'},
+        {data: 'status', name: 'status'},
+        {data: 'action', name: 'action', orderable: false, searchable: false},
+      ]
+    });
+  });
 
+  function deleteIngredient(id) {
+      swal({
+          title: "Are you sure?",
+          text: "Delete This Ingredient",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+              url: '{{ url('admin/ingredients') }}/'+id,
+              method: "DELETE",
+              data: {
+                "_token": "{{ csrf_token() }}",
+              },
+              beforeSend: function() {
+                document.getElementById('loading').style.display = 'block';
+              },
+              success: function(response) {
+                console.log(response);
+                if(response.code === 200) {
+                  swal('', response.message, 'success');
+                  $('#ingredients-list').DataTable().ajax.reload();
+                }else {
+                  swal('', response.message, 'warning');
+                }
+              },
+              error: function(response) {
+                document.getElementById('loading').style.display = 'none';
+              },
+              complete: function() {
+                document.getElementById('loading').style.display = 'none';
+              }
+            })
+        }
+      });
+      
+  }
+</script>
 @endsection

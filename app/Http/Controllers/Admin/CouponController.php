@@ -125,6 +125,7 @@ class CouponController extends Controller
         $request->validate(
             [
                 'name'           => 'required|max:150',
+                'code'           => 'required|unique:coupons',
                 'category.*'     => 'required',
                 'sub_category.*' => 'nullable',
                 'food_items.*'   => 'required',
@@ -140,6 +141,7 @@ class CouponController extends Controller
         Coupon::create(
             [
                 'name'          => $request->name,
+                'code'          => $request->code,
                 'category'      => implode(',', $request->category),
                 'sub_category'  => $request->has('sub_category') ? implode(',', $request->sub_category) : null,
                 'food_items'    => implode(',', $request->food_items),
@@ -195,6 +197,7 @@ class CouponController extends Controller
         $request->validate(
             [
                 'name'           => 'required|max:150',
+                'code'           => 'required|unique:coupons,code,'.$id,
                 'category.*'     => 'required',
                 'sub_category.*' => 'nullable',
                 'food_items.*'   => 'required',
@@ -211,6 +214,7 @@ class CouponController extends Controller
         $picked->update(
             [
                 'name'          => $request->name,
+                'code'          => $request->code,
                 'category'      => implode(',', $request->category),
                 'sub_category'  => $request->has('sub_category') ? implode(',', $request->sub_category) : null,
                 'food_items'    => implode(',', $request->food_items),

@@ -73,7 +73,7 @@
                           <li><a href="{{ url('guest/review') }}">Guest Reviews</a></li>
                         </ul>
                       </li>
-                      <li><a href="{{ url('food/items') }}">Food Items</a></li>
+                      <li><a href="{{ url('all/food/items') }}">Food Items</a></li>
                       <li><a href="{{ url('offer') }}">Offers</a></li>
                       <li><a href="{{ url('contact') }}">Contact</a></li>
                       @if(\Auth::user())
@@ -86,7 +86,7 @@
                           </ul>
                         </li>
                       @endif
-                      <li class="desktop-cart"><a href="cart.php"><i class="ti-shopping-cart cartmenu"></i><span class="cart-number">2</span></a></li>
+                      <li class="desktop-cart"><a href="{{ url('cart') }}"><i class="ti-shopping-cart cartmenu"></i><span class="cart-number" id="cart_number">{{ count((array) session('cart')) }}</span></a></li>
                     </ul>
                   </nav>
                 </div>
