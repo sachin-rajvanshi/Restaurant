@@ -15,6 +15,11 @@ class CreateCouponUsesTable extends Migration
     {
         Schema::create('coupon_uses', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('coupon_id')->nullable();
+            $table->foreign('coupon_id')->references('id')->on('coupons');
+            $table->integer('usages')->default(0);
             $table->timestamps();
         });
     }

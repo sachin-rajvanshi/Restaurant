@@ -107,9 +107,40 @@
 </div>
 <script type="text/javascript">
     document.getElementById('loading').style.display = 'none';
+
+    //-------------------- Get city By state --------------------//
+
+      function getCountry(save_country = null) {
+          $("#country").html('');
+          $.ajax({
+              url:"{{url('get/countries')}}",
+              type: "GET",
+              dataType : 'json',
+              beforeSend: function() {
+              document.getElementById('loading').style.display = 'block';
+          },
+          success: function(result) {
+              $('#country').html('<option value="">Select City</option>');
+                  $.each(result.data,function(key,country){
+                      if(parseInt(save_country) == parseInt(country.id)) {
+                          $("#country").append('<option value="'+country.id+'" selected>'+country.name+'</option>');
+                      }else {
+                          $("#country").append('<option value="'+country.id+'" >'+country.name+'</option>');
+                      }
+                  });
+            },
+            error: function(response) {
+              document.getElementById('loading').style.display = 'none';
+            },
+            complete: function() {
+              document.getElementById('loading').style.display = 'none';
+            }
+          });
+      }
+
     //-------------------- Get state By country --------------------//
 
-      function getState(country_id = null) {
+      function getState(country_id = null, save_state = null) {
           var country_id = $('#country').val() ? $('#country').val() : country_id;
           $("#state").html('');
           $.ajax({
@@ -122,7 +153,7 @@
           success: function(result) {
               $('#state').html('<option value="">Select State</option>');
                   $.each(result.data,function(key,state){
-                      if(parseInt('{{ old('state') }}') == parseInt(state.id)) {
+                      if(parseInt(save_state) == parseInt(state.id)) {
                           $("#state").append('<option value="'+state.id+'" selected>'+state.name+'</option>');
                       }else {
                           $("#state").append('<option value="'+state.id+'" >'+state.name+'</option>');
@@ -140,8 +171,8 @@
 
       //-------------------- Get city By state --------------------//
 
-      function getCity(city_id = null) {
-          var state_id = $('#state').val() ? $('#state').val() : city_id;
+      function getCity(state_id = null, save_city = null) {
+          var state_id = $('#state').val() ? $('#state').val() : state_id;
           $("#city").html('');
           $.ajax({
               url:"{{url('get/cities/')}}/"+state_id,
@@ -153,7 +184,7 @@
           success: function(result) {
               $('#city').html('<option value="">Select City</option>');
                   $.each(result.data,function(key,city){
-                      if(parseInt('{{ old('city') }}') == parseInt(city.id)) {
+                      if(parseInt(save_city) == parseInt(city.id)) {
                           $("#city").append('<option value="'+city.id+'" selected>'+city.name+'</option>');
                       }else {
                           $("#city").append('<option value="'+city.id+'" >'+city.name+'</option>');

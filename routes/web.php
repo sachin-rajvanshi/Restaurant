@@ -65,6 +65,11 @@ Route::post('add-food/cart', [CartController::class, 'addFoodToCart'])->name('fo
 Route::get('cart', [CartController::class, 'cart'])->name('food.cart');
 Route::post('update/cart/quantity', [CartController::class, 'updateQuality'])->name('food.updateQuality');
 Route::post('remove/cart/quantity', [CartController::class, 'removeQuality'])->name('food.removeQuality');
+Route::post('apply/coupon', [CartController::class, 'applyCoupon'])->name('food.applyCoupon');
+Route::post('remove/coupon', [CartController::class, 'removeCoupon'])->name('food.removeCoupon');
+Route::get('checkout/{c_id}/{t_p}/{o_p}/{d}/{s_t}/{tax}/{d_a}/{t_d}', [CartController::class, 'checkout'])->name('food.checkout');
+Route::post('create/order', [CartController::class, 'createOrder'])->name('food.createOrder');
+Route::get('order/success/{id}', [CartController::class, 'orderSuccess'])->name('food.orderSuccess');
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +88,9 @@ Route::get('user/registration', [UserController::class, 'registration'])->name('
 Route::get('user/login', [UserController::class, 'login'])->name('user.login');
 Route::post('user/login', [UserController::class, 'userLogin'])->name('user.userLogin');
 Route::post('user/signup', [UserController::class, 'create'])->name('user.create');
+
+// Get State By Country 
+Route::get('get/countries', [HomeController::class, 'getCountries'])->name('getCountries');
 
 // Get State By Country 
 Route::get('get/states/{id}', [HomeController::class, 'getStates'])->name('getStates');
@@ -246,6 +254,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth', 'admin.check']], func
 	Route::put('update/home/page/online/section', [SettingsController::class, 'updateHomePageOnlineSection'])->name('admin.updateHomePageOnlineSection');
 	Route::put('update/home/gallery/content', [SettingsController::class, 'updateGalleryContent'])->name('admin.updateGalleryContent');
 	Route::put('update/home/contact/content', [SettingsController::class, 'updateContactContent'])->name('admin.updateContactContent');
+	Route::put('update/order/tax', [SettingsController::class, 'updateOrderTax'])->name('admin.updateOrderTax');
 
 
 });

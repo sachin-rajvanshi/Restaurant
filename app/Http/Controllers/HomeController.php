@@ -100,6 +100,15 @@ class HomeController extends Controller
     	return redirect()->route('admin.login.view')->with('success-alert', 'Password updated successfully.please login your account.');
     }
 
+    public function getCountries() {
+        try{
+            $countries = Country::get();
+            return $this->success('State Found Successfully', $countries);
+        }catch(\Exception $e) {
+            return $this->error($e, null);
+        }
+    }
+
     /**
      * Get States Based On Country
      *

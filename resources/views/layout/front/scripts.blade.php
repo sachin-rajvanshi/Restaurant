@@ -47,15 +47,15 @@
 
 
     function managePriceByQuantityIncrement(id) {
-        var quantity = $('#food_quantity').val();
+        var quantity = $('#food_quantity'+id).val();
         var total_qty = parseInt(quantity) + 1;
-        updateFoodQuantity(id, total_qty);
+        updateFoodQuantity(id, parseInt(total_qty));
     } 
 
     function managePriceByQuantityDecrement(id) {
-        var quantity = $('#food_quantity').val();
+        var quantity = $('#food_quantity'+id).val();
         var total_qty = parseInt(quantity) == 1 ? quantity : parseInt(quantity) - 1;
-        updateFoodQuantity(id, total_qty);
+        updateFoodQuantity(id, parseInt(total_qty));
     }
 
     function  manageVarientType(amount) {
@@ -265,9 +265,9 @@
             error: function(error) {
                 alert('Something happned wrong.');
                 document.getElementById('loading').style.display = 'none';
-                setTimeout(function() {
-                    location.reload();
-                }, 2000);
+                // setTimeout(function() {
+                //     location.reload();
+                // }, 2000);
             },
             complete: function() {
                 $('#decrement'+id).removeAttr('disabled');

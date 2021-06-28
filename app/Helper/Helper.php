@@ -50,5 +50,15 @@ class Helper
         return $data;
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Get Percent Of Amount
+    |--------------------------------------------------------------------------
+    */
+    public static function getAmountByPercent($amount, $discount) {
+        $final_amount = $amount * $discount / 100;
+        return round($final_amount);
+    }
+
 
 }

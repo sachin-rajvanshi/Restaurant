@@ -862,8 +862,9 @@ class SettingsController extends Controller
         $online          = HomePageContentSetting::where('slug', 'online')->first();
         $gallery         = HomePageContentSetting::where('slug', 'gallery')->first();
         $contact         = HomePageContentSetting::where('slug', 'contact')->first();
+        $tax             = HomePageContentSetting::where('slug', 'tax')->first();
         $food_items = FoodItem::where('status', 'Yes')->get();
-        return view('admin.settings.home_page_content_settings', compact('categories', 's_category', 'best_dish', 'food_items', 'popular_dishes', 'testimonial', 'online', 'gallery', 'contact'));
+        return view('admin.settings.home_page_content_settings', compact('categories', 's_category', 'best_dish', 'food_items', 'popular_dishes', 'testimonial', 'online', 'gallery', 'contact', 'tax'));
     }
 
     public function updateHomeCategories(Request $request) {
@@ -1028,5 +1029,22 @@ class SettingsController extends Controller
             ]
         );
         return redirect()->back()->with('success', 'Gallery Header Content Updated Successfully.');
+    }
+
+    public function updateOrderTax(Request $request) {
+        $request->validate(
+            [
+                'name'     => 'required|max:150',
+                'discount' => 'required|numeric|between:0,99.99',
+            ]
+        );
+        $picked = HomePageContentSetting::find($request->tax_id);
+        $picked->update(
+            [
+                'heading'     => $request->name,
+                'title'       => $request->discount,
+            ]
+        );
+        return redirect()->back()->with('success', 'Tax Details Updated Successfully.');
     }
 }

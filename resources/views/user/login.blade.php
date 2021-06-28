@@ -19,7 +19,7 @@
                 </div>
               </div>
               <div class="orspave"><span>OR</span></div>
-              <form class="form-contact contact_form" action="{{ url('user/login') }}" method="post" id="contactForm" novalidate="novalidate">
+              <form class="form-contact contact_form" action="{{ url('user/login') }}?type={{ app('request')->input('type') }}" method="post" id="contactForm" novalidate="novalidate">
                 @csrf
                 <div class="row">
                   <div class="col-sm-12">

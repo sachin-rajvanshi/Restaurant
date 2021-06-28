@@ -126,13 +126,21 @@ class UserController extends Controller
         $password = $request->password;
         if($check == 'mobile') {
             if (Auth::attempt(array('mobile_number' => $email, 'password' => $password,'role'=>'user'))) {
-                return redirect()->route('user.dashboard');
+                if($request->input('type') == 'Cart'){
+                    return redirect('cart');
+                }else{
+                    return redirect()->route('user.dashboard');
+                }
             }else {
                 return redirect()->back()->with('warning', 'Invalid login credentials, please enter correctly.');
             }
         }else {
             if (Auth::attempt(array('email' => $email, 'password' => $password,'role'=>'user'))) {
-                return redirect()->route('user.dashboard');
+                if($request->input('type') == 'Cart'){
+                    return redirect('cart');
+                }else{
+                    return redirect()->route('user.dashboard');
+                }
             }else {
                 return redirect()->back()->with('warning', 'Invalid login credentials, please enter correctly.');
             }

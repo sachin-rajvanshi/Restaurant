@@ -27,6 +27,40 @@
       </div>
     </div>
     <div class="content-body">
+    	<!-- Manage Order Tax Setting  -->
+    	<div class="row">
+		    <div class="col-md-12">
+		        <div class="card">
+		            <div class="card-header">
+		              <h4 class="card-title">Order Tax Setting</h4>
+		            </div>
+		            <div class="card-body">
+		              <form action="{{ url('admin/update/order/tax') }}" method="POST">
+		              @csrf
+		              @method('PUT')
+		              	<input type="hidden" name="tax_id" value="{{ $tax->id }}">
+		                <div class="row">
+							<div class="col-md-5">
+								<div class="form-group">
+  	  		                      	<label>Tax Name</label>
+  	  		                      	<input type="text" name="name" class="form-control" value="{{ $tax->heading }}" required="">
+  	  		                    </div>
+							</div>
+							<div class="col-md-5">
+								<div class="form-group">
+  	  		                      	<label>Discount(%)</label>
+  	  		                      	<input type="text" name="discount" class="form-control" value="{{ $tax->title }}" required="">
+  	  		                    </div>
+							</div>
+							<div class="col-md-2 form-group">
+								<button class="btn btn-primary waves-effect waves-float waves-light" type="submit" style="margin-top: 20px;">Update</button>
+							</div>
+		              	</div>
+		         	 </form>
+		      		</div>
+		  		</div>
+			</div>
+		</div>
     	<!-- Manage Categories On Home -->
     	<div class="row">
 		    <div class="col-md-12">
